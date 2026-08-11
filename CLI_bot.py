@@ -28,6 +28,7 @@ def change_contact(args, contacts):
     else:
         return "Contact not found."
 
+
 @error_handler
 def show_phone(args, contacts):
     name = args[0]
