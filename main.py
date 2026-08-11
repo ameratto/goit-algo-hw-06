@@ -25,7 +25,6 @@ class Phone(Field):
             raise ValueError("Phone number not valid")
 
 
-
 class Record:
     def __init__(self, name):
         self.name = Name(name)
