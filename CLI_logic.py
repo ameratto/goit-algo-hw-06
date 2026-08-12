@@ -51,7 +51,7 @@ class Record:
                 raise e
             else:
                 self.remove_phone(old_phone)
-        return None
+        raise ValueError("Phone number not found")
 
     def find_phone(self, find_phone: str) -> Phone | None:
         for phone in self.phones:
@@ -97,10 +97,12 @@ def main():
     john_record.remove_phone("5555555555")
     john_record.add_phone("5555555555")
 
-    try:
-        john_record.edit_phone("5555555555", "1234569]76")
-    except Exception as e:
-        print(f"Викликається виняток: {e}")
+    john_record.edit_phone("1111111111", "1234569876")
+
+    # try:
+    #     john_record.edit_phone("5555555555", "1234569]76")
+    # except Exception as e:
+    #     print(f"Викликається виняток: {e}")
 
     jane_record = Record("Jane")
     jane_record.add_phone("9876543210")
