@@ -19,13 +19,10 @@ class Phone(Field):
         super().__init__(self.__validate_phone(value))
 
     def __validate_phone(self, value) -> str | None:
-        if not value.strip().isdigit():
-            raise ValueError("Phone number not valid")
-        else:
-            if len(value.strip()) != 10:
-                raise ValueError("Phone number not valid")
+        if len(value.strip()) == 10 and value.strip().isdigit():
             return value.strip()
-
+        else:
+            raise ValueError("Phone number not valid")
 
 
 class Record:
@@ -40,21 +37,21 @@ class Record:
         phone_obj = self.find_phone(phone)
         if phone_obj is not None:
             self.phones.remove(phone_obj)
-        else:
-            print("Phone not found")
 
-    def edit_phone(self, old_phone: str, new_phone: str) -> None:
+    def edit_phone(self, old_phone: str, new_phone: str) -> ValueError | None:
         # phone_obj = self.find_phone(old_phone)
         # if phone_obj is not None:
         #     for i, x in enumerate(self.phones):
         #         if x == phone_obj:
         #             self.phones[i] = Phone(new_phone)
-        # else:
-        #     print("Phone not found")
-
         if self.find_phone(old_phone) is not None:
-            self.remove_phone(old_phone)
-            self.add_phone(new_phone)
+            try:
+                self.add_phone(new_phone)
+            except ValueError as e:
+                raise e
+            else:
+                self.remove_phone(old_phone)
+        return None
 
     def find_phone(self, find_phone: str) -> Phone | None:
         for phone in self.phones:
@@ -71,10 +68,7 @@ class AddressBook(UserDict):
         self.data[record.name.value] = record
 
     def find(self, name: str) -> Record | None:
-        for record in self.data:
-            if record == name:
-                return self.data[name]
-        return None
+        self.data.get(name)
 
     def delete(self, name: str) -> None:
         record_obj = self.find(name)
@@ -93,7 +87,6 @@ class AddressBook(UserDict):
 
 
 def main():
-
     book = AddressBook()
 
     john_record = Record("John")
@@ -104,7 +97,10 @@ def main():
     john_record.remove_phone("5555555555")
     john_record.add_phone("5555555555")
 
-    john_record.edit_phone("5555555555", "1234561234")
+    try:
+        john_record.edit_phone("5555555555", "1234569]76")
+    except Exception as e:
+        print(f"Викликається виняток: {e}")
 
     jane_record = Record("Jane")
     jane_record.add_phone("9876543210")
