@@ -68,7 +68,7 @@ class AddressBook(UserDict):
         self.data[record.name.value] = record
 
     def find(self, name: str) -> Record | None:
-        self.data.get(name)
+        return self.data.get(name)
 
     def delete(self, name: str) -> None:
         record_obj = self.find(name)
@@ -96,8 +96,6 @@ def main():
 
     john_record.remove_phone("5555555555")
     john_record.add_phone("5555555555")
-
-    john_record.edit_phone("1111111111", "1234569876")
 
     # try:
     #     john_record.edit_phone("5555555555", "1234569]76")
